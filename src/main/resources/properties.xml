@@ -1,0 +1,22 @@
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>This is a comment</comment>
+    <entry key="usernameYandex">alexey.lutskevich</entry>
+    <entry key="usernameYahoo">alexey.lutskevich@yahoo.com</entry>
+    <entry key="password">19Maria87_</entry>
+    <entry key="yandexHomepage">https://www.mail.yandex.ru/</entry>
+    <entry key="yahooHomepage">https://www.yahoo.com/</entry>
+    <entry key="driverPath">D:/webdriver_/src/main/resources/chromedriver.exe</entry>
+    <entry key="usernameVerify">alexey.lutskevich@yandex.by</entry>
+    <entry key="incorrectUsername">alexey.lutskevich1</entry>
+    <entry key="incorrectPassword">19Maria87</entry>
+    <entry key="incorrectUsernameMessage">Такого аккаунта нет</entry>
+    <entry key="incorrectPasswordMessage">Неверный пароль</entry>
+    <entry key="emptyUsernameMessage">Логин не указан</entry>
+    <entry key="emptyPasswordMessage">Пароль не указан</entry>
+    <entry key="emailTo">alexey.lutskevich@yahoo.com</entry>
+    <entry key="emailSubject">Test email</entry>
+    <entry key="emailContent">Email content</entry>
+    <entry key="emailSender">Alexey Lutskevich</entry>
+
+</properties>

@@ -36,7 +36,7 @@ public class BaseTest {
     @BeforeClass
     public void getProperties() throws IOException {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("D:/webdriver_/src/main/resources/config.properties"));
+        properties.loadFromXML(new FileInputStream("D:/webdriver_/src/main/resources/properties.xml"));
         password = properties.getProperty("password");
         usernameYandex = properties.getProperty("usernameYandex");
         usernameYahoo = properties.getProperty("usernameYahoo");
