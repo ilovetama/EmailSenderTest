@@ -28,4 +28,9 @@ public abstract class AbstractPage
 		Wait<WebDriver> wait = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS);
 		return wait.until(ExpectedConditions.presenceOfElementLocated(by));
 	}
+
+	public WebElement waitForAlert(By by) {
+		Wait<WebDriver> wait = new WebDriverWait(driver, WAIT_TIMEOUT_SECONDS);
+		return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+	}
 }

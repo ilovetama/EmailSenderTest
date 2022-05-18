@@ -1,5 +1,6 @@
 package com.epam.ta.page.yandex;
 
+import com.epam.ta.model.Mail;
 import com.epam.ta.page.AbstractPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +24,6 @@ public class MailPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(@href, 'passport.yandex')" +
             " and span[contains(text(),'Выйти из сервисов Яндекса')]]")
     private WebElement logoutButton;
-
-//    @FindBy(xpath = "//div[contains(@data-class-bubble, 'yabble-compose')]")
-//    private WebElement inputTo;
 
     @FindBy(xpath = "//input[contains(@name, 'subject')]")
     private WebElement inputSubject;
@@ -53,16 +51,15 @@ public class MailPage extends AbstractPage {
         return userName;
     }
 
-    public String createNewMail(String to, String subject, String text) {
+    public String createNewMail(Mail mail) {
         waitForElementVisible(composeButton).click();
-        waitForElementVisible(inputTo).sendKeys(to);
-        inputSubject.sendKeys(subject);
-        inputText.sendKeys(text);
+        waitForElementVisible(inputTo).sendKeys(mail.getTo());
+        inputSubject.sendKeys(mail.getSubject());
+        inputText.sendKeys(mail.getText());
         sendButton.click();
-        logger.info("Created new mail with To: " + "[" + to + "]" +
-                " subject: [" + subject + "] and  text: [" + text + "]");
-        String message = waitForElementLocated(sendIsSuccessful).getText();
-        return message;
+        logger.info("Created new mail with To: " + "[" + mail.getTo() + "]" +
+                " subject: [" + mail.getSubject() + "] and  text: [" + mail.getText() + "]");
+        return waitForElementLocated(sendIsSuccessful).getText();
     }
 
 }

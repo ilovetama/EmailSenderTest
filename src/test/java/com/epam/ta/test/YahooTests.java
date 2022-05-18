@@ -1,7 +1,10 @@
 package com.epam.ta.test;
 
+import com.epam.ta.model.Mail;
 import com.epam.ta.model.User;
-import com.epam.ta.page.yahoo.MainPage;
+import com.epam.ta.page.yahoo.LoginPage;
+import com.epam.ta.page.yahoo.MailPage;
+import com.epam.ta.service.MailCreator;
 import com.epam.ta.service.UserCreator;
 import org.testng.annotations.Test;
 
@@ -14,13 +17,21 @@ public class YahooTests extends CommonConditions {
     public void mailChecking()
     {
         User testUser = UserCreator.withCredentialsFromProperty();
-        String userName = new MainPage(driver)
+        Mail testMail = MailCreator.withCredentialsFromProperty();
+        String senderName = new LoginPage(driver)
                 .openPage()
-                .openLoginPage()
                 .login(testUser)
                 .openMailPage()
-                .getUserNameCorrect(testUser.getUsername());
-        assertThat(userName, is(containsString(testUser.getUsername())));
+                .openPage()
+                .getSenderName();
+        assertThat(senderName, is(containsString("Alexey Lutskevich")));
+        String mailSubject = new MailPage(driver)
+                .openMail()
+                .getMailSubject();
+        assertThat(mailSubject, is(containsString(testMail.getSubject())));
+        String mailText = new MailPage(driver)
+                .getMailText();
+        assertThat(mailText, is(containsString(testMail.getText())));
     }
 
 }

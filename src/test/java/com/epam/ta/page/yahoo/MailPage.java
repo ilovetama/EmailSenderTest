@@ -14,29 +14,13 @@ public class MailPage extends AbstractPage {
     private final String BASE_URL = "http://mail.yahoo.com";
     private final Logger logger = LogManager.getRootLogger();
 
-    private final By currentUserName = By.xpath("//span[@class= 'user-account__subname']/..");
-    private final By sendIsSuccessful = By.xpath("//div[@class='ComposeDoneScreen-Title']/span[text()='Письмо отправлено']");
-    private final By userAccountLink = By.xpath("//a[contains(@class, 'user-account')]");
-    private final By composeButton = By.xpath("//a[contains(@class, 'main-action-compose')]");
-    private final By inputTo = By.xpath("//div[contains(@data-class-bubble, 'yabble-compose')]");
-
-    @FindBy(xpath = "//a[contains(@href, 'passport.yandex')" +
-            " and span[contains(text(),'Выйти из сервисов Яндекса')]]")
-    private WebElement logoutButton;
-
-//    @FindBy(xpath = "//div[contains(@data-class-bubble, 'yabble-compose')]")
-//    private WebElement inputTo;
-
-    @FindBy(xpath = "//input[contains(@name, 'subject')]")
-    private WebElement inputSubject;
-
-    @FindBy(xpath = "//div[contains(@class,'cke_wysiwyg_div')]")
-    private WebElement inputText;
-
-    @FindBy(xpath = "//div[contains(@class,'ComposeSendButton_desktop')]/button[contains(@class,'Button2')]")
-    private WebElement sendButton;
+    private final By senderName = By.xpath("//a[@role = 'article' and @data-test-read = 'false']//div[@data-test-id = 'senders']/..//*[contains(text(),'Alexey')]");
+    private final By mailSubject = By.xpath("//span[@data-test-id='message-group-subject-text']");
+    private final By unreadMailLink = By.xpath("//a[@role = 'article' and @data-test-read = 'false']");
+    private final By mailText = By.xpath("//div[@data-test-id='message-view-body-content']");
 
     public MailPage openPage() {
+        driver.get(BASE_URL);
         logger.info("Mail page opened");
         return this;
     }
@@ -46,23 +30,28 @@ public class MailPage extends AbstractPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public String getUserNameCorrect(String username) {
-        waitForElementVisible(userAccountLink).click();
-        String userName = waitForElementLocated(currentUserName).getText();
-        logger.info("Expected username: " + username + " | " + "Current username: " + userName);
-        return userName;
+    public MailPage openMail(){
+        driver.findElement(unreadMailLink).click();
+        return this;
     }
 
-    public String createNewMail(String to, String subject, String text) {
-        waitForElementVisible(composeButton).click();
-        waitForElementVisible(inputTo).sendKeys(to);
-        inputSubject.sendKeys(subject);
-        inputText.sendKeys(text);
-        sendButton.click();
-        logger.info("Created new mail with To: " + "[" + to + "]" +
-                " subject: [" + subject + "] and  text: [" + text + "]");
-        String message = waitForElementLocated(sendIsSuccessful).getText();
-        return message;
+    public String getSenderName() {
+        String senderName = waitForElementLocated(this.senderName).getText();
+        logger.info("Expected sender name: 'Alexey Lutskevich' | " + "Current username: " + senderName);
+        return senderName;
     }
+
+    public String getMailSubject() {
+        String mailSubject = waitForElementLocated(this.mailSubject).getText();
+        logger.info("Expected subject: 'subject of a mail' | " + "Current username: " + mailSubject);
+        return mailSubject;
+    }
+
+    public String getMailText() {
+        String mailText = waitForElementLocated(this.mailText).getText();
+        logger.info("Expected text: 'text of a mail' | " + "Current username: " + mailText);
+        return mailText;
+    }
+
 
 }

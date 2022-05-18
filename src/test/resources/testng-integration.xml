@@ -1,7 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite thread-count="2" verbose="10" name="testSuite" parallel="tests">
-    <test verbose="2" name="MytestCase" group-by-instances="true">
+    <test verbose="2" name="Integration" group-by-instances="true">
+        <groups>
+            <run>
+                <include name="integration"/>
+            </run>
+        </groups>
         <classes>
             <class name="com.epam.ta.test.YandexTests" />
             <class name="com.epam.ta.test.YahooTests" />

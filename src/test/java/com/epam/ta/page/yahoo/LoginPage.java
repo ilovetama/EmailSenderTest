@@ -21,7 +21,10 @@ public class LoginPage extends AbstractPage {
     private WebElement inputLogin;
 
     @FindBy(xpath = "//input[contains(@id,'login-signin')]")
-    private WebElement buttonSubmit;
+    private WebElement loginSubmitButton;
+
+    @FindBy(xpath = "//button[contains(@id,'login-signin')]")
+    private WebElement passwordLoginButton;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -29,15 +32,16 @@ public class LoginPage extends AbstractPage {
     }
 
     public LoginPage openPage() {
+        driver.get(PAGE_URL);
         logger.info("Login page opened");
         return this;
     }
 
     public LoginPage login(User user) {
         inputLogin.sendKeys(user.getUsername());
-        buttonSubmit.click();
+        loginSubmitButton.click();
         waitForElementVisible(inputPassword).sendKeys(user.getPassword());
-        buttonSubmit.click();
+        passwordLoginButton.click();
         logger.info("Login performed");
         return this;
     }
