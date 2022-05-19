@@ -5,8 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class MailPage extends AbstractPage {
@@ -37,21 +35,19 @@ public class MailPage extends AbstractPage {
 
     public String getSenderName() {
         String senderName = waitForElementLocated(this.senderName).getText();
-        logger.info("Expected sender name: 'Alexey Lutskevich' | " + "Current username: " + senderName);
+        logger.info("Expected sender name: 'Alexey Lutskevich' | " + "Current sender name: " + senderName);
         return senderName;
     }
 
     public String getMailSubject() {
         String mailSubject = waitForElementLocated(this.mailSubject).getText();
-        logger.info("Expected subject: 'subject of a mail' | " + "Current username: " + mailSubject);
+        logger.info("Expected subject: 'subject of a mail' | " + "Current subject: " + mailSubject);
         return mailSubject;
     }
 
     public String getMailText() {
         String mailText = waitForElementLocated(this.mailText).getText();
-        logger.info("Expected text: 'text of a mail' | " + "Current username: " + mailText);
+        logger.info("Expected text: 'text of a mail' | " + "Current text: " + mailText);
         return mailText;
     }
-
-
 }

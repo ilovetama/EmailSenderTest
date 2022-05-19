@@ -15,7 +15,9 @@ public class LoginPage extends AbstractPage {
     private final Logger logger = LogManager.getRootLogger();
     private final String PAGE_URL = "https://passport.yandex.by";
 
-    private By inputPassword = By.xpath("//input[@type = 'password']");
+    private final By inputPassword = By.xpath("//input[@type = 'password']");
+    private final By emptyUsernameErrorMessage = By.xpath("//div[contains(@id, 'field:input-login:hint')]");
+    private final By emptyPasswordErrorMessage = By.xpath("//div[contains(@id, 'field:input-passwd:hint')]");
 
     @FindBy(xpath = "//input[@id = 'passp-field-login']")
     private WebElement inputLogin;
@@ -34,16 +36,39 @@ public class LoginPage extends AbstractPage {
         return this;
     }
 
-    public LoginPage login(User user) {
+    public MailPage login(User user) {
         inputLogin.sendKeys(user.getUsername());
         buttonSubmit.click();
         waitForElementVisible(inputPassword).sendKeys(user.getPassword());
         buttonSubmit.click();
         logger.info("Login performed");
+        return new MailPage(driver);
+    }
+
+    public LoginPage loginWithEmptyUsername(User user) {
+        inputLogin.sendKeys(user.getUsername());
+        buttonSubmit.click();
         return this;
     }
 
-    public MailPage openMailPage(){
-        return new MailPage(driver);
+    public LoginPage loginWithEmptyPassword(User user) {
+        inputLogin.sendKeys(user.getUsername());
+        buttonSubmit.click();
+        waitForElementVisible(inputPassword).sendKeys(user.getPassword());
+        buttonSubmit.click();
+        return this;
     }
+
+    public String getEmptyUsernameErrorMessage(String expectedError) {
+        String error = waitForElementLocated(emptyUsernameErrorMessage).getText();
+        logger.info("Expected error message: " + expectedError + " | " + "Current error message: " + error);
+        return error;
+    }
+
+    public String getEmptyPasswordErrorMessage(String expectedError) {
+        String error = waitForElementLocated(emptyPasswordErrorMessage).getText();
+        logger.info("Expected error message: " + expectedError + " | " + "Current error message: " + error);
+        return error;
+    }
+
 }

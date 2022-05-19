@@ -5,25 +5,24 @@ import com.epam.ta.page.AbstractPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.Set;
 
 public class MailPage extends AbstractPage {
 
     private final String BASE_URL = "http://mail.yandex.by";
     private final Logger logger = LogManager.getRootLogger();
 
-    private final By currentUserName = By.xpath("//span[@class= 'user-account__subname']/..");
+    private final By currentUserName = By.xpath("//span[@class='username desk-notif-card__user-name']");
     private final By sendIsSuccessful = By.xpath("//div[@class='ComposeDoneScreen-Title']/span[text()='Письмо отправлено']");
-    private final By userAccountLink = By.xpath("//a[contains(@class, 'user-account')]");
-    private final By composeButton = By.xpath("//a[contains(@class, 'main-action-compose')]");
-    private final By inputTo = By.xpath("//div[contains(@data-class-bubble, 'yabble-compose')]");
-
-    @FindBy(xpath = "//a[contains(@href, 'passport.yandex')" +
-            " and span[contains(text(),'Выйти из сервисов Яндекса')]]")
-    private WebElement logoutButton;
+    private final By mailLink = By.xpath("//a[contains(@href,'https://mail.yandex.by/')]");
+    private final By composeButton = By.xpath("//a[contains(@class, 'mail-ComposeButton js-main-action-compose')]");
+    private final By inputTo = By.xpath("//div[contains(@class, 'composeYabbles')]");
 
     @FindBy(xpath = "//input[contains(@name, 'subject')]")
     private WebElement inputSubject;
@@ -44,16 +43,17 @@ public class MailPage extends AbstractPage {
         PageFactory.initElements(this.driver, this);
     }
 
-    public String getUserNameCorrect(String username) {
-        waitForElementVisible(userAccountLink).click();
+    public String getUserName(String username) {
         String userName = waitForElementLocated(currentUserName).getText();
         logger.info("Expected username: " + username + " | " + "Current username: " + userName);
         return userName;
     }
 
     public String createNewMail(Mail mail) {
-        waitForElementVisible(composeButton).click();
-        waitForElementVisible(inputTo).sendKeys(mail.getTo());
+        waitForElementLocated(mailLink).click();
+        driver.switchTo().window(switchWindow());
+        waitForElementLocated(composeButton).click();
+        waitForElementLocated(inputTo).sendKeys(mail.getTo());
         inputSubject.sendKeys(mail.getSubject());
         inputText.sendKeys(mail.getText());
         sendButton.click();
@@ -61,5 +61,4 @@ public class MailPage extends AbstractPage {
                 " subject: [" + mail.getSubject() + "] and  text: [" + mail.getText() + "]");
         return waitForElementLocated(sendIsSuccessful).getText();
     }
-
 }

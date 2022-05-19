@@ -12,18 +12,20 @@ import org.openqa.selenium.support.PageFactory;
 
 public class MainPage extends AbstractPage {
 
-    private final String BASE_URL = "https://www.mail.yahoo.com/";
+    private final String BASE_URL = "https://www.yahoo.com/";
     private final Logger logger = LogManager.getRootLogger();
     private static final By ALERT_AGREE_BUTTON = By.xpath("//button[@type = 'submit']");
-    private static final By SignInButton = By.xpath("//a[contains(@href,'https://mail.yahoo.com')]");
+
+    @FindBy(xpath = "//a[contains(@href,'https://mail.yahoo.com') and @id='ybarMailLink']")
+    private WebElement signInButton;
 
     public MainPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(this.driver, this);
     }
 
-    public LoginPage openLoginPage() {
-        waitForElementLocated(SignInButton).click();
+    public LoginPage clickSignInButton() {
+        signInButton.click();
         return new LoginPage(driver);
     }
 
