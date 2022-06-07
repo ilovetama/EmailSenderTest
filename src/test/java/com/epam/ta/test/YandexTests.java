@@ -13,9 +13,9 @@ import static org.hamcrest.Matchers.*;
 
 public class YandexTests extends CommonConditions {
 
-    private final String EXPECTED_MESSAGE = "Письмо отправлено";
-    private final String EMPTY_LOGIN_ERROR_MESSAGE = "Логин не указан";
-    private final String EMPTY_PASSWORD_ERROR_MESSAGE = "Пароль не указан";
+    private static final String EXPECTED_MESSAGE = "Письмо отправлено";
+    private static final String EMPTY_LOGIN_ERROR_MESSAGE = "Логин не указан";
+    private static final String EMPTY_PASSWORD_ERROR_MESSAGE = "Пароль не указан";
 
     @Test(description = "JIRA-7566")
     @Ignore
